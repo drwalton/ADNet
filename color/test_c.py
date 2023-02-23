@@ -14,8 +14,8 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 parser = argparse.ArgumentParser(description="ADNet_Test")
 parser.add_argument("--num_of_layers", type=int, default=17, help="Number of total layers")
-parser.add_argument("--logdir", type=str, default="logs", help='path of log files')
-parser.add_argument("--test_data", type=str, default='McMaster', help='test on Set12 or Set68')
+parser.add_argument("--logdir", type=str, default="color/c75", help='path of log files')
+parser.add_argument("--test_data", type=str, default="color/data/McMaster", help='test on Set12 or Set68')
 parser.add_argument("--test_noiseL", type=float, default=15, help='noise level used on test set')
 opt = parser.parse_args()
 
@@ -32,7 +32,7 @@ def main():
     model.eval()
     # load data info
     print('Loading data info ...\n')
-    files_source = glob.glob(os.path.join('data', opt.test_data, '*'))
+    files_source = glob.glob(os.path.join(opt.test_data, '*'))
     files_source.sort()
     # process data
     psnr_test = 0
@@ -53,7 +53,7 @@ def main():
         # noisy image
         INoisy = ISource + noise
         ISource = Variable(ISource) 
-	    INoisy = Variable(INoisy) 
+        INoisy = Variable(INoisy) 
         ISource= ISource.cuda() 
         INoisy = INoisy.cuda() 
         with torch.no_grad(): # this can save much memory

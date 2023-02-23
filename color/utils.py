@@ -2,7 +2,7 @@ import math
 import torch
 import torch.nn as nn
 import numpy as np
-from skimage.measure.simple_metrics import compare_psnr
+from skimage.metrics import peak_signal_noise_ratio
 
 def weights_init_kaiming(m):
     classname = m.__class__.__name__
@@ -20,7 +20,7 @@ def batch_PSNR(img, imclean, data_range):
     Iclean = imclean.data.cpu().numpy().astype(np.float32)
     PSNR = 0
     for i in range(Img.shape[0]):
-        PSNR += compare_psnr(Iclean[i,:,:,:], Img[i,:,:,:], data_range=data_range)
+        PSNR += peak_signal_noise_ratio(Iclean[i,:,:,:], Img[i,:,:,:], data_range=data_range)
     return (PSNR/Img.shape[0])
 
 def data_augmentation(image, mode):
